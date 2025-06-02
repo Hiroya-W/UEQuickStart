@@ -36,6 +36,7 @@
 *.xcworkspace
 *.sln
 *.sln.DotSettings.user
+*.uproject.Dotsettings.user
 *.suo
 *.opensdf
 *.sdf
