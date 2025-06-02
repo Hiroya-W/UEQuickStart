@@ -1,5 +1,6 @@
 ---
 Language: Cpp
+Standard: c++20
 BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AlignOperands: false
