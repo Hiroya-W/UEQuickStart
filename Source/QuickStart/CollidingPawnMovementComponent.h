@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include "CollidingPawnMovementComponent.generated.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PawnMovementComponent.h"
+
+#include "CollidingPawnMovementComponent.generated.h"
 
 /**
  *

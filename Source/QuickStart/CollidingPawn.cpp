@@ -2,6 +2,7 @@
 
 
 #include "CollidingPawn.h"
+#include "CollidingPawnMovementComponent.h"
 
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
@@ -52,6 +53,9 @@ ACollidingPawn::ACollidingPawn()
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	OurMovementComponent = CreateDefaultSubobject<UCollidingPawnMovementComponent>(TEXT("CustomMovementComponent"));
+	OurMovementComponent->UpdatedComponent = RootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -70,4 +74,45 @@ void ACollidingPawn::Tick(float DeltaTime)
 void ACollidingPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("ParticleToggle", IE_Pressed, this, &ACollidingPawn::ParticleToggle);
+	PlayerInputComponent->BindAxis("MoveForward", this, &ACollidingPawn::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &ACollidingPawn::MoveRight);
+	PlayerInputComponent->BindAxis("Turn", this, &ACollidingPawn::Turn);
+}
+
+UPawnMovementComponent* ACollidingPawn::GetMovementComponent() const
+{
+	return OurMovementComponent;
+}
+
+void ACollidingPawn::MoveForward(float AxisValue)
+{
+	if (OurMovementComponent && (OurMovementComponent->UpdatedComponent == RootComponent))
+	{
+		OurMovementComponent->AddInputVector(GetActorForwardVector() * AxisValue);
+	}
+}
+
+void ACollidingPawn::MoveRight(float AxisValue)
+{
+	if (OurMovementComponent && (OurMovementComponent->UpdatedComponent == RootComponent))
+	{
+		OurMovementComponent->AddInputVector(GetActorRightVector() * AxisValue);
+	}
+}
+
+void ACollidingPawn::Turn(float AxisValue)
+{
+	FRotator NewRotation = GetActorRotation();
+	NewRotation.Yaw += AxisValue;
+	SetActorRotation(NewRotation);
+}
+
+void ACollidingPawn::ParticleToggle()
+{
+	if (OurParticleSysetem && OurParticleSysetem->Template)
+	{
+		OurParticleSysetem->ToggleActive();
+	}
 }

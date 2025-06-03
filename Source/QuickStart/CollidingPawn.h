@@ -16,9 +16,6 @@ public:
 	// Sets default values for this pawn's properties
 	ACollidingPawn();
 
-	UPROPERTY()
-	class UParticleSystemComponent* OurParticleSysetem;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -29,4 +26,17 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY()
+	class UParticleSystemComponent* OurParticleSysetem;
+
+	UPROPERTY()
+	class UCollidingPawnMovementComponent* OurMovementComponent;
+
+	virtual UPawnMovementComponent* GetMovementComponent() const override;
+
+	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);
+	void Turn(float AxisValue);
+	void ParticleToggle();
 };
