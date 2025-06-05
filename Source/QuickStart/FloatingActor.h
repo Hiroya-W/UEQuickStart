@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FloatingActor.generated.h"
 #include "GameFramework/Actor.h"
+
+#include "FloatingActor.generated.h"
 
 UCLASS()
 class QUICKSTART_API AFloatingActor : public AActor
